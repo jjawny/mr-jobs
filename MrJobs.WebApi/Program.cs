@@ -34,9 +34,11 @@ var app = builder.Build();
     app.UseAuthentication();
     app.UseAuthorization();
 
-    app.MapGet("/ping", () => "healthy");
+    app.MapGet("/ping", () => "healthy").AllowAnonymous();
     // Also test via generating a token via Postman to call this endpoint as a user
     app.MapGet("/poke", PokeRoute.Handle).RequireAuthorization();
+    // Can read the key from Az Key Vault upon startup (if rotating, simply restart the web app to cache the new key in-mem)
+    app.MapGet("/access-via-custom-api-key", ApiKeyRoute.Handle).AllowAnonymous();
 
     app.Run();
 }
