@@ -1,6 +1,6 @@
-@MrJobs.WebApi_HostAddress = http://localhost:5138
+@Host = http://localhost:5138
 
-GET {{MrJobs.WebApi_HostAddress}}/weatherforecast/
+### HEALTH CHECK
+GET {{Host}}/ping
 Accept: application/json
 
-###
