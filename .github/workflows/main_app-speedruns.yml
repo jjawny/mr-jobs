@@ -26,12 +26,12 @@ jobs:
         shell: pwsh
         run: |
           dotnet restore "${{ vars.WEB_API_PROJECT_PATH }}"
-          dotnet publish "${{ vars.WEB_API_PROJECT_PATH }}" --configuration Release --output "${{vars.DOTNET_ROOT}}/myapp"
+          dotnet publish "${{ vars.WEB_API_PROJECT_PATH }}" --configuration Release --output "${{env.DOTNET_ROOT}}/myapp"
       - name: Upload artifact for deploy job
         uses: actions/upload-artifact@v4
         with:
           name: webapi-artifact
-          path: ${{vars.DOTNET_ROOT}}/myapp
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   prod-approval:
     name: PROD Approval
