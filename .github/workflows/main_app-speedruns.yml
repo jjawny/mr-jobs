@@ -74,6 +74,7 @@ jobs:
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_63D7095076824EE5B858CCAD6E737B8F }}
       - name: Set the Azure Web App runtime stack
         uses: Azure/cli@v2.1.0
+        # See available runtime stacks using `az webapp list-runtimes --os-type windows`
         with:
           inlineScript: |
             az webapp config set --resource-group ${{ vars.AZURE_RESOURCE_GROUP }} --name ${{ vars.AZURE_WEBAPP }} --runtime ${{ vars.AZURE_WEBAPP_RUNTIME_STACK }}
