@@ -42,7 +42,7 @@ jobs:
     if: success()
     steps:
       - name: Replace Tokens
-      - uses: cschleiden/replace-tokens@v1.3
+        uses: cschleiden/replace-tokens@v1.3
         with:
           tokenPrefix: "{{"
           tokenSuffix: "}}"
