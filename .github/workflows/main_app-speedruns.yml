@@ -8,13 +8,13 @@ on:
 
 jobs:
   build:
-    name: Build
-    runs-on: windows-latest # match OS of the web app
+    name: BUILD
+    runs-on: windows-latest # match OS of the web app during build
     permissions:
       contents: read
     steps:
       - uses: actions/checkout@v4
-      - name: Set up the .NET runtime
+      - name: Install .NET runtime
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ vars.BUILD_DOTNET_VERSION }}
@@ -23,21 +23,21 @@ jobs:
         run: |
           dotnet restore "${{ vars.WEB_API_PROJECT_PATH }}"
           dotnet publish "${{ vars.WEB_API_PROJECT_PATH }}" --configuration Release --output "${{env.DOTNET_ROOT}}/myapp"
-      - name: Upload artifact for deploy job to download
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: webapi-artifact
           path: ${{env.DOTNET_ROOT}}/myapp
 
   prod-approval:
-    name: PROD Approval
+    name: PROD APPROVAL
     runs-on: ubuntu-latest
     needs: build
     if: success()
     permissions:
-      issues: write # approve via issue comment
+      issues: write # opens an issue; approve via comment
     steps:
-      - name: Await Manual Approval
+      - name: Await manual approval
         uses: trstringer/manual-approval@v1.9.0
         with:
           secret: ${{ github.TOKEN }}
@@ -45,7 +45,7 @@ jobs:
           minimum-approvals: 1
 
   prod-deploy:
-    name: PROD Deploy
+    name: PROD DEPLOY
     runs-on: ubuntu-latest
     needs: prod-approval
     if: success()
@@ -60,7 +60,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: webapi-artifact
-      - name: Replace Tokens
+      - name: Replace appsettings.json tokens
         uses: cschleiden/replace-tokens@v1.3
         with:
           tokenPrefix: "{{"
@@ -79,8 +79,8 @@ jobs:
             az webapp config set
               --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }}
               --name ${{ secrets.AZURE_WEBAPP }}
-              --runtime ${{ secrets.AZURE_WEBAPP_RUNTIME_STACK }}
-      - name: Deploy to Azure Web App
+              --runtime ${{ vars.AZURE_WEBAPP_RUNTIME_STACK }}
+      - name: Deploy to Azure
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
