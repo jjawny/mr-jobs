@@ -19,7 +19,7 @@ public static class SystemJobRoute
   public static bool IsAuthorizedByApiKey(HttpRequest request, IConfiguration appSettings)
   {
     var expectedKey = appSettings["SystemRoutes:ApiKey"];
-    var actualKey = request.Headers[appSettings["SystemRoutes:ApiKeyHeader"]].FirstOrDefault();
+    var actualKey = request.Headers[appSettings["SystemRoutes:ApiKeyHeader"]!].FirstOrDefault();
     var isMatching = string.Equals(expectedKey, actualKey);
     return isMatching;
   }
