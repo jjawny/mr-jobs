@@ -64,7 +64,9 @@ var app = builder.Build();
   app.UseAuthentication();
   app.UseAuthorization();
 
-  app.MapGet("/ping", () => "healthy").AllowAnonymous();
+  var healthCheckHandler = () => "healthy";
+  app.MapGet("/", healthCheckHandler).AllowAnonymous();
+  app.MapGet("/ping", healthCheckHandler).AllowAnonymous();
   app.MapGet("/poke", PokeRoute.Handle);
   app.MapGet("/access-via-custom-api-key", SystemJobRoute.Handle).AllowAnonymous();
 
