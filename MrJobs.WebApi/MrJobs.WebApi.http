@@ -1,6 +1,17 @@
 @Host = http://localhost:5138
+@JWT = 
+@SystemApiKey = 
 
 ### HEALTH CHECK
 GET {{Host}}/ping
 Accept: application/json
 
+### TEST AZURE AUTH ROUTE
+GET {{Host}}/poke
+Accept: application/json
+Authorization: Bearer {{JWT}}
+
+### TEST CUSTOM AUTH ROUTE
+GET {{Host}}/access-via-custom-api-key
+Accept: application/json
+x-system-api-key: {{SystemApiKey}}
