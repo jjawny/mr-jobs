@@ -76,10 +76,7 @@ jobs:
         uses: Azure/cli@v2.1.0
         with:
           inlineScript: |
-            az webapp config set
-              --resource-group ${{ vars.AZURE_RESOURCE_GROUP }}
-              --name ${{ vars.AZURE_WEBAPP }}
-              --runtime ${{ vars.AZURE_WEBAPP_RUNTIME_STACK }}
+            az webapp config set --resource-group ${{ vars.AZURE_RESOURCE_GROUP }} --name ${{ vars.AZURE_WEBAPP }} --runtime ${{ vars.AZURE_WEBAPP_RUNTIME_STACK }}
       - name: Deploy to Azure
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
