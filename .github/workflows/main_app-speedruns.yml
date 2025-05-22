@@ -35,7 +35,7 @@ jobs:
     environment:
       name: Production
     needs: build
-      if: success()
+    if: success()
     steps:
       - name: Confirm appsettings.json exists
         shell: pwsh
@@ -59,7 +59,7 @@ jobs:
     environment:
       name: Production
     needs: prod-configure-appsettings
-      if: success()
+    if: success()
     permissions:
       issues: write # Approve via issue comment
     steps:
@@ -74,7 +74,7 @@ jobs:
     name: PROD Deploy
     runs-on: windows-latest
     needs: prod-approval
-      if: success()
+    if: success()
     environment:
       name: Production
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
