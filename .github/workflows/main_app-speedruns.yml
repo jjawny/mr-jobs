@@ -46,7 +46,7 @@ jobs:
 
   prod-deploy:
     name: PROD Deploy
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: prod-approval
     if: success()
     environment:
@@ -56,14 +56,6 @@ jobs:
       id-token: write
       contents: read
     steps:
-      # - name: List available environment variables
-      #   shell: pwsh
-      #   run: |
-      #     Get-ChildItem Env: | Format-Table -AutoSize
-      # - name: List available 'vars' variables
-      #   shell: pwsh
-      #   run: |
-      #     Write-Host "vars.AZURE_WEBAPP_RUNTIME_STACK: ${{ vars.AZURE_WEBAPP_RUNTIME_STACK }}"
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
@@ -73,7 +65,7 @@ jobs:
         with:
           tokenPrefix: "{{"
           tokenSuffix: "}}"
-          files: ./myapp/appsettings.json
+          files: ./appsettings.json
       - name: Login to Azure
         uses: azure/login@v2
         with:
