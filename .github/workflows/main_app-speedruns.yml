@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Build Stage
+    name: Build
     runs-on: windows-latest
     permissions:
       contents: read #This is required for actions/checkout
@@ -28,9 +28,11 @@ jobs:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
 
-  replace-appsettings-tokens:
-    name: Replace AppSettings Tokens
+  prod-replace-appsettings-tokens:
+    name: PROD Replace AppSettings Tokens
     runs-on: windows-latest
+    environment:
+      name: "Production"
     needs: build
     if: success()
     steps:
@@ -41,10 +43,12 @@ jobs:
           tokenSuffix: "}}"
           files: ${{env.DOTNET_ROOT}}/myapp/appsettings.json
 
-  manual-approval:
-    name: Approval
+  prod-approval:
+    name: PROD Approval
     runs-on: ubuntu-latest
-    needs: replace-appsettings-tokens
+    environment:
+      name: "Production"
+    needs: prod-replace-appsettings-tokens
     if: success()
     permissions:
       issues: write
@@ -56,10 +60,10 @@ jobs:
           approvers: ${{ env.APPROVERS }} # GH usernames comma-separated
           minimum-approvals: 1
 
-  deploy:
-    name: Deploy Stage
+  prod-deploy:
+    name: PROD Deploy
     runs-on: windows-latest
-    needs: manual-approval
+    needs: prod-approval
     if: success()
     environment:
       name: "Production"
