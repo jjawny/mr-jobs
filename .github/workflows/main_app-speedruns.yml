@@ -9,14 +9,10 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: windows-latest
+    runs-on: windows-latest # match OS of the web app
     permissions:
       contents: read
     steps:
-      - name: List available environment within this job
-        shell: pwsh
-        run: |
-          Get-ChildItem Env: | Format-Table -AutoSize
       - uses: actions/checkout@v4
       - name: Set up the .NET runtime
         uses: actions/setup-dotnet@v4
@@ -27,7 +23,7 @@ jobs:
         run: |
           dotnet restore "${{ vars.WEB_API_PROJECT_PATH }}"
           dotnet publish "${{ vars.WEB_API_PROJECT_PATH }}" --configuration Release --output "${{env.DOTNET_ROOT}}/myapp"
-      - name: Upload artifact for deploy job
+      - name: Upload artifact for deploy job to download
         uses: actions/upload-artifact@v4
         with:
           name: webapi-artifact
@@ -39,7 +35,7 @@ jobs:
     needs: build
     if: success()
     permissions:
-      issues: write # Approve via issue comment
+      issues: write # approve via issue comment
     steps:
       - name: Await Manual Approval
         uses: trstringer/manual-approval@v1.9.0
@@ -57,14 +53,18 @@ jobs:
       name: Production
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write # This is required for requesting the JWT
-      contents: read # This is required for actions/checkout
+      id-token: write
+      contents: read
     steps:
-      - name: List available environment within this job
-        shell: pwsh
-        run: |
-          Get-ChildItem Env: | Format-Table -AutoSize
-      - name: Download artifact from build job
+      # - name: List available environment variables
+      #   shell: pwsh
+      #   run: |
+      #     Get-ChildItem Env: | Format-Table -AutoSize
+      # - name: List available 'vars' variables
+      #   shell: pwsh
+      #   run: |
+      #     Write-Host "vars.AZURE_WEBAPP_RUNTIME_STACK: ${{ vars.AZURE_WEBAPP_RUNTIME_STACK }}"
+      - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: webapi-artifact
@@ -80,14 +80,22 @@ jobs:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_A7C976CED4E3453387EF337A2411A2AC }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_85BF8C9AC6694FBB8F13927E9D5FF53B }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_63D7095076824EE5B858CCAD6E737B8F }}
+      - name: Set the Azure Web App runtime stack
+        uses: Azure/cli@v2.1.0
+        with:
+          inlineScript: |
+            az webapp config set
+              --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }}
+              --name ${{ secrets.AZURE_WEBAPP }}
+              --runtime ${{ secrets.AZURE_WEBAPP_RUNTIME_STACK }}
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: ${{ vars.AZURE_WEBAPP_NAME }}
+          app-name: ${{ secrets.AZURE_WEBAPP }}
           slot-name: "Production"
           package: .
-          stack: ${{ vars.AZURE_WEBAPP_RUNTIME_STACK }}
+          restart: true
       - name: Logout of Azure
         run: |
           az logout
