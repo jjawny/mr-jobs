@@ -13,40 +13,39 @@ jobs:
     permissions:
       contents: read
     steps:
+      - name: List available environment within this job
+        shell: pwsh
+        run: |
+          Get-ChildItem Env: | Format-Table -AutoSize
       - uses: actions/checkout@v4
       - name: Set up the .NET runtime
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ env.BUILD_DOTNET_VERSION }}
+          dotnet-version: ${{ vars.BUILD_DOTNET_VERSION }}
       - name: Run .NET commands
         shell: pwsh
         run: |
-          dotnet restore "${{ env.WEB_API_PROJECT_PATH }}"
-          dotnet publish "${{ env.WEB_API_PROJECT_PATH }}" --configuration Release --output "${{env.DOTNET_ROOT}}/myapp"
+          dotnet restore "${{ vars.WEB_API_PROJECT_PATH }}"
+          dotnet publish "${{ vars.WEB_API_PROJECT_PATH }}" --configuration Release --output "${{vars.DOTNET_ROOT}}/myapp"
       - name: Upload artifact for deploy job
         uses: actions/upload-artifact@v4
         with:
           name: webapi-artifact
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: ${{vars.DOTNET_ROOT}}/myapp
 
   prod-approval:
     name: PROD Approval
     runs-on: ubuntu-latest
-    environment:
-      name: Production
     needs: build
     if: success()
     permissions:
       issues: write # Approve via issue comment
     steps:
-      - name: Logout of Azure
-        run: |
-          echo "Requesting approval from ${{ env.APPROVERS}}"
       - name: Await Manual Approval
         uses: trstringer/manual-approval@v1.9.0
         with:
           secret: ${{ github.TOKEN }}
-          approvers: ${{ env.APPROVERS }} # GH usernames comma-separated
+          approvers: ${{ vars.APPROVERS }} # GH usernames comma-separated
           minimum-approvals: 1
 
   prod-deploy:
@@ -61,6 +60,10 @@ jobs:
       id-token: write # This is required for requesting the JWT
       contents: read # This is required for actions/checkout
     steps:
+      - name: List available environment within this job
+        shell: pwsh
+        run: |
+          Get-ChildItem Env: | Format-Table -AutoSize
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
@@ -81,10 +84,10 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          app-name: ${{ vars.AZURE_WEBAPP_NAME }}
           slot-name: "Production"
           package: .
-          stack: ${{ env.AZURE_WEBAPP_RUNTIME_STACK }}
+          stack: ${{ vars.AZURE_WEBAPP_RUNTIME_STACK }}
       - name: Logout of Azure
         run: |
           az logout
