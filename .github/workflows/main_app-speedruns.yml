@@ -82,7 +82,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: ${{ secrets.AZURE_WEBAPP }}
+          app-name: ${{ vars.AZURE_WEBAPP }}
           slot-name: "Production"
           package: .
           restart: true
