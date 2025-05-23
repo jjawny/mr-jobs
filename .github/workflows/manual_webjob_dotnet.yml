@@ -1,0 +1,52 @@
+name: MrJobs.WebJob.DotNet Pipeline
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+    environment:
+      name: Production
+    env:
+      ZIP_PATH: "./output"
+      ZIP_FILE: "mrjobs.zip"
+      ZIP_FILEPATH: "./output/mrjobs.zip"
+      BINARIES: "./output/App_Data/jobs/continuous/mrjobs"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install .NET runtime
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ vars.BUILD_DOTNET_VERSION }}
+      - name: Run .NET commands
+        shell: pwsh
+        run: |
+          dotnet restore "${{ vars.WEB_JOB_PROJECT_PATH }}"
+          dotnet publish "${{ vars.WEB_JOB_PROJECT_PATH }}" --configuration Release --output "${{env.BINARIES}}"
+      # - name: Upload artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: webjob-artifact
+      #     path: ${{env.BINARIES}}
+      - name: Replace appsettings.json tokens
+        uses: cschleiden/replace-tokens@v1.3
+        with:
+          tokenPrefix: "{{"
+          tokenSuffix: "}}"
+          files: ./appsettings.json
+        env:
+          WEB_API_HOST: ${{ vars.WEB_API_HOST }}
+          WEB_API_SCOPE: ${{ secrets.WEB_API_SCOPE }}
+      - name: Zip
+        shell: pwsh
+        run: |
+          Compress-Archive -Path '${{ env.ZIP_PATH }}/*' -DestinationPath '${{ env.ZIP_FILEPATH }}' -Force
+      - name: Deploy to Azure
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ vars.AZURE_WEBAPP }}
+          package: ${{ env.ZIP_FILEPATH }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
