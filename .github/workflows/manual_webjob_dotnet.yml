@@ -44,9 +44,18 @@ jobs:
         shell: pwsh
         run: |
           Compress-Archive -Path '${{ env.ZIP_PATH }}/*' -DestinationPath '${{ env.ZIP_FILEPATH }}' -Force
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_A7C976CED4E3453387EF337A2411A2AC }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_85BF8C9AC6694FBB8F13927E9D5FF53B }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_63D7095076824EE5B858CCAD6E737B8F }}
       - name: Deploy to Azure
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ vars.AZURE_WEBAPP }}
           package: ${{ env.ZIP_FILEPATH }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+      - name: Logout of Azure
+        run: |
+          az logout
