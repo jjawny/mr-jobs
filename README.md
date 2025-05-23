@@ -1,7 +1,11 @@
 # Debrief
 
 ## MrJobs.WebApi
-- A bare-minimum ASP.NET Web API with one route, hosted in Azure
+- A bare-minimum ASP.NET Web API
+- Hosted on an AzWebApp
+- Has Azure auth (via AzAppRego)
+- Has a build & deploy pipeline (CI/CD)
+
 ## MrJobs.WebJob.DotNet
 - A console app which makes a single HTTP GET call to the cloud-hosted Web API
 ## MrJobs.WebJob.PowerShell
