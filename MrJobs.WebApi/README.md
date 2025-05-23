@@ -1,6 +1,8 @@
 # Run
 1. `cp appsettings.json appsettings.Development.json` (safely gitignored)
-2. Create an AzAppRego (for auth), no platform needed
+2. Create an AzAppRego (for auth)
+   - No platform needed to start with
+   - app rego > Manage > API permissions > grant MS Graph User.Read
 3. Create a scope via app rego > Manage > Expose an API > create a new scope for admins and users called "API.Access"
 4. Populate fields:
    - `{{AUTH_CLIENT_ID}}` app rego > Overview > copy client ID
