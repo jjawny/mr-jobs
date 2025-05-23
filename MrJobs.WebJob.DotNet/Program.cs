@@ -23,7 +23,7 @@ try
     throw new ArgumentException("Bad API Scope");
 
   if (string.IsNullOrWhiteSpace(host))
-    throw new ArgumentException("Bad API host");
+    throw new ArgumentException("Bad API Host");
 
   Console.WriteLine($"Successfully read appsettings");
 
