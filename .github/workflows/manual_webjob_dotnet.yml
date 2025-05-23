@@ -41,7 +41,7 @@ jobs:
           files: ${{ env.BINARIES }}/appsettings.json
         env:
           WEB_API_HOST: ${{ secrets.WEB_API_HOST }}
-          WEB_API_SCOPE: ${{ secrets.WEB_API_SCOPE }}
+          WEB_API_APP_REGO_BASE_SCOPE: ${{ secrets.WEB_API_APP_REGO_BASE_SCOPE }}
       - name: Zip
         shell: pwsh
         run: |

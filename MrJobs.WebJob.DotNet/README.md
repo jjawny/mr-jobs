@@ -3,7 +3,7 @@
 3. `cp appsettings.json appsettings.Development.json` (safely gitignored)
 4. Populate fields:
    - `{{WEB_API_HOST}}` the Web API to ping (localhost or see AzWebApp)
-   - `{{WEB_API_SCOPE}}` the AzAppRego's DEFAULT scope, looks like _Application ID URI + ./default_
+   - `{{WEB_API_APP_REGO_BASE_SCOPE}}` the AzAppRego's base scope: app rego > Expose an API > copy Application ID URI
 
 # For Managed Identity to work
 1. Turn on Managed Identity for the AzWebApp (which has web jobs): web app > Settings > System assigned ON > copy the object ID for later

@@ -35,7 +35,7 @@ try
   //  2. THEN az cli (login when running locally)
 
   var credential = new DefaultAzureCredential(); // new ManagedIdentityCredential();
-  var tokenRequestCtx = new Azure.Core.TokenRequestContext([scope]);
+  var tokenRequestCtx = new Azure.Core.TokenRequestContext([$"{scope}./default"]);
   var accessToken = await credential.GetTokenAsync(tokenRequestCtx);
   var token = accessToken.Token;
 
