@@ -37,16 +37,16 @@ try
   var credential = new DefaultAzureCredential(); // new ManagedIdentityCredential();
   var tokenRequestCtx = new Azure.Core.TokenRequestContext([$"{scope}/.default"]);
   var accessToken = await credential.GetTokenAsync(tokenRequestCtx);
-  var token = accessToken.Token;
+  var jwt = accessToken.Token;
 
-  Console.WriteLine($"Successfully obtained access token '{token[0..Math.Min(5, token.Length)]}...'");
+  Console.WriteLine($"Successfully obtained access token '{jwt[0..Math.Min(5, jwt.Length)]}...'");
 
   // 3. Make the HTTP request
   var httpClient = new HttpClient()
   {
     DefaultRequestHeaders =
     {
-      { "Bearer", accessToken.Token },
+      { "Authorization", $"Bearer {accessToken.Token}" },
     }
   };
   var uri = new Uri(route);
