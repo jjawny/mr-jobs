@@ -13,7 +13,9 @@ jobs:
       ZIP_FILE: "mrjobs.zip"
       ZIP_FILEPATH: "./output/mrjobs.zip"
       BINARIES: "./output/App_Data/jobs/continuous/mrjobs"
-
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
