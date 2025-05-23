@@ -3,7 +3,7 @@
 3. `cp appsettings.json appsettings.Development.json` (safely gitignored)
 4. Populate fields:
    - `{{WEB_API_HOST}}` the Web API to ping (localhost or see AzWebApp)
-   - `{{WEB_API_SCOPE}}` the access token's scope (see Azure App Rego)
+   - `{{WEB_API_SCOPE}}` the AzAppRego's DEFAULT scope, looks like _Application ID URI + ./default_
 
 # For Managed Identity to work
 1. Turn on Managed Identity for the AzWebApp (which has web jobs): web app > Settings > System assigned ON > copy the object ID for later
@@ -18,4 +18,9 @@
       \"resourceId\": \"<OBJECT ID of the APP REGO's ENTERPRISE APP>\",
       \"appRoleId\": \"<ROLE ID of the APP REGO's role>\"
    }"
+   ```
+   Confirm with
+   ```bash
+   az rest --method GET \
+      --url "https://graph.microsoft.com/v1.0/servicePrincipals/<OBJECT ID of the WEB APP's system assigned MANAGED IDENTITY>/appRoleAssignments"
    ```
