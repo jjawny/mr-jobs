@@ -37,7 +37,7 @@ var builder = WebApplication.CreateBuilder(args);
 
   builder.Services
   //.AddAuthentication().AddJwtBearer(options => appSettings.GetSection("Auth").Bind(options)); // JWT validation for generic providers (Firebase etc)
-    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddMicrosoftIdentityWebApi(appSettings.GetSection("Auth")); // JWT validation for Azure Entra ID
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddMicrosoftIdentityWebApi(appSettings.GetSection("AzAuth")); // JWT validation for Azure Entra ID
 
   // RequireAuthorization on all routes by default (opt-out using AllowAnonymous)
   builder.Services.AddAuthorizationBuilder()
