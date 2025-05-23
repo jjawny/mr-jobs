@@ -9,14 +9,15 @@ namespace MrJobs.WebApi.Routes;
 /// </summary>
 public static class PokeRoute
 {
+  private static readonly string NONE = "none";
   public static IResult Handle(ClaimsPrincipal user)
   {
     var response = new
     {
-      firstName = user.FindFirst(ClaimTypes.GivenName)?.Value,
-      fullName = user.FindFirst(ClaimTypes.Name)?.Value,
-      upn = user.FindFirst(ClaimTypes.Upn)?.Value,
-      azObjectId = user.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier")?.Value,
+      firstName = user.FindFirst(ClaimTypes.GivenName)?.Value ?? NONE,
+      fullName = user.FindFirst(ClaimTypes.Name)?.Value ?? NONE,
+      upn = user.FindFirst(ClaimTypes.Upn)?.Value ?? NONE,
+      azObjectId = user.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier")?.Value ?? NONE,
     };
     return Results.Ok(response);
   }

@@ -53,7 +53,7 @@ try
   var response = await httpClient.GetAsync(uri);
   var content = await response.Content.ReadAsStringAsync();
 
-  Console.WriteLine($"Successfully completed Job, API response: '{content}'");
+  Console.WriteLine($"Successfully completed Job: '{content}'");
 }
 catch (Exception ex)
 {
