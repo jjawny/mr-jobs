@@ -17,13 +17,13 @@ try
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .Build();
   var scope = configuration["Api:Scope"];
-  var host = configuration["Api:Host"];
+  var route = configuration["Api:Route"];
 
   if (string.IsNullOrWhiteSpace(scope))
     throw new ArgumentException("Bad API Scope");
 
-  if (string.IsNullOrWhiteSpace(host))
-    throw new ArgumentException("Bad API Host");
+  if (string.IsNullOrWhiteSpace(route))
+    throw new ArgumentException("Bad API Route");
 
   Console.WriteLine($"Successfully read appsettings");
 
@@ -49,11 +49,11 @@ try
       { "Bearer", accessToken.Token },
     }
   };
-  var uri = new Uri($"{host}/poke");
+  var uri = new Uri(route);
   var response = await httpClient.GetAsync(uri);
   var content = await response.Content.ReadAsStringAsync();
 
-  Console.WriteLine($"Successfully completed Job with status code: '{response.StatusCode}'");
+  Console.WriteLine($"Successfully completed Job with status code '{response.StatusCode}' and content '{content}'");
 }
 catch (Exception ex)
 {
