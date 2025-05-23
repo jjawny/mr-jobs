@@ -1,17 +1,13 @@
 # Debrief
 
 ## MrJobs.WebApi
-- A bare-minimum ASP.NET Web API
-- Hosted on an AzWebApp
-- Has Azure auth (via AzAppRego)
-- Has a build & deploy pipeline (CI/CD)
+A bare-minimum ASP.NET Web API, hosted on an AzWebApp, using Azure auth (via AzAppRego), has a build & deploy pipeline (CI/CD)
 
 ## MrJobs.WebJob.DotNet
-- A console app which makes a single HTTP GET call to the cloud-hosted Web API
+A console app that makes a single HTTP GET call to the cloud-hosted Web API once deployed as a AzWebJob, via its own manually triggered pipeline
+ 
 ## MrJobs.WebJob.PowerShell
-- Exact same functionality as the .NET version
-- Unlike the pre-compiled console app (using Azure NuGet packages for Managed Identity), the PowerShell script needs to import the equivalent (Az.Accounts module) but this isn't always guarenteed to be available in the Web Job's runtime
-- We _COULD_ save the module locally, including it in the package we deploy, but **speed** and **reliability** is everything, especially during incidents
-- So use an API key instead (showcasing injecting secrets via CI/CD pipelines)
+This one is purely a PowerShell example using the custom API key, (I just assume this will work), no CI/CD pipeline has been setup, see the [.NET Web Job](./MrJobs.WebJob.DotNet/) for a live one
+
 ## Internal CRON job (within Web API)
-- TODO: kinda shitty but here anyway
+Kinda an anti-pattern, when devs run locally this auto-runs and could affect shared dev/staging data without users knowing it, also unpredictable, better to stick with the usually HTTP endpoints
