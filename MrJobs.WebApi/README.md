@@ -13,8 +13,8 @@
 5. `dotnet run` or use C# Dev Kit
 
 ## Use the [.http file](./MrJobs.WebApi.http)
-1. Login to Azure `az login --tenant <{{AUTH_TENANT_ID}}> --scope <SCOPE>`
-2. Obtain a JWT `az account get-access-token --resource <{{AUTH_AUDIENCE}}> --scope <SCOPE>`
+1. Login to Azure `az login --tenant <APP REGO TENANT ID> --scope <API.Access SCOPE>`
+2. Obtain a JWT `az account get-access-token --resource <APP REGO CLIENT ID> --scope <API.Access SCOPE>`
 3. Variables:
    - **@JWT** use the Azure JWT
    - **@SystemApiKey** use your custom API key
