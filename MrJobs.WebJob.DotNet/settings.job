@@ -1,0 +1,7 @@
+{
+  "is_singleton": false,
+  "environment_variables": {
+    "APP_PROFILE": "production",
+    "DRY_RUN": "true"
+  }
+}
