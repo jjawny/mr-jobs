@@ -1,4 +1,4 @@
-$systemApiKey = "{{SystemRoutes:ApiKey}}"
+$systemApiKey = "{{SYSTEMROUTES_APIKEY}}"
 $systemApiKeyHeader = "x-system-api-key"
 $timeoutSec = 30
 $maxRetries = 3
@@ -6,7 +6,7 @@ $retryCount = 0
 
 while ($retryCount -lt $maxRetries) {
   try {
-    $response = Invoke-RestMethod -Uri "https://{{SystemRoutes:Host}}/access-via-custom-api-key"
+    $response = Invoke-RestMethod -Uri "https://{{API_HOST}}/access-via-custom-api-key"
                                   -Method Get
                                   -Headers @{ $systemApiKeyHeader = $systemApiKey }
                                   -TimeoutSec $timeoutSec
