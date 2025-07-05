@@ -3,7 +3,7 @@
 🏃💨 Speedrunning CRON jobs x Web APIs via Azure infra
 
 TODO: Log the best time here
-TODO: add in pacing stuff (server-side only in .NET) asp.net rate limiting, do we even do debouncing here? etc
+TODO: add in pacing stuff (server-side only in .NET) asp.net rate limiting, do we even do debouncing here? etc throttling etc
 TODO: Detail the speedrun steps w individual times? something like
 1. Provision infra
 2. Add auth
