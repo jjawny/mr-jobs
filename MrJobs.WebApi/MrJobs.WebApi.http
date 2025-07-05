@@ -3,7 +3,7 @@
 @SystemApiKey = 
 
 ### HEALTH CHECK
-GET {{Host}}/ping
+GET {{Host}}/
 Accept: application/json
 
 ### TEST AZURE AUTH ROUTE

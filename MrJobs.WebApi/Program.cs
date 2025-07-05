@@ -1,10 +1,9 @@
-using Azure.Extensions.AspNetCore.Configuration.Secrets;
-using Azure.Identity;
-using Azure.Security.KeyVault.Secrets;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web;
 using MrJobs.WebApi.Routes;
+
+// TODO: Review this minimal ASP.NET example... needs a cleanup
 
 // Configure the DI container
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
   }
   else
   {
+    // TODO: Re-do docs here, but basically we don't demo this bcuz AzKeyVault costs $$$
     // OVERRIDE APPSETTINGS with VALUES from AZURE KEY VAULT
     //  - See AzKeyVault > Access policies > Add access policy (allow web app to access the vault using Managed Identity)
     //  - See AzKeyVault > Objects > Secrets (define secrets)
@@ -64,9 +64,11 @@ var app = builder.Build();
   app.UseAuthentication();
   app.UseAuthorization();
 
-  var healthCheckHandler = () => "healthy";
-  app.MapGet("/", healthCheckHandler).AllowAnonymous();
-  app.MapGet("/ping", healthCheckHandler).AllowAnonymous();
+  static string HealthCheck() => "Healthy!";
+  app.MapGet("/", HealthCheck).AllowAnonymous();
+  app.MapGet("/health", HealthCheck).AllowAnonymous();
+  app.MapGet("/healthcheck", HealthCheck).AllowAnonymous();
+
   app.MapGet("/poke", PokeRoute.Handle);
   app.MapGet("/access-via-custom-api-key", SystemJobRoute.Handle).AllowAnonymous();
 

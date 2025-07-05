@@ -3,6 +3,9 @@ using System.Security.Claims;
 
 namespace MrJobs.WebApi.Routes;
 
+// TODO: Revise, is this the best way to extract claims?
+// TODO: Also assign myself as a user to a group in my entra ID and that group to a role in the AzAppRego, then to extract here
+
 /// <summary>
 /// An authorized endpoint that can be hit by Azure resources (via Managed Identity) or by users (via Azure Entra ID)
 /// Test user POV by generating a JWT via Postman, then use the access token in the .http file
