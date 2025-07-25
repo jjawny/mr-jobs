@@ -1,4 +1,9 @@
 # How to run?
+
+```zsh
+cp appsettings.Testing.Example.json appsettings.Testing.json
+```
+
 The integration tests require [appsettings.Testing.json](../MrJobs.WebApi/appsettings.Testing.json) to be populated w all the same auth settings from appsettings.json + an additional Client Secret. Why? Because we can't test Managed Identity outside of Azure or test interactive user flow w/o a user, so we will fallback to testing w a Service Principal. This is called 'Client Credentials flow' and our Service Principal will be the AzAppRego itself. Setup:
 
 1. From AzAppRego:

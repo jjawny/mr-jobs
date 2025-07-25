@@ -4,7 +4,6 @@ using Microsoft.Identity.Web;
 using MrJobs.WebApi.Features;
 using MrJobs.WebApi.Routes;
 
-
 // Configure the DI container
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -78,5 +77,5 @@ var app = builder.Build();
   app.Run();
 }
 
-// Make Program class accessible for integration tests
+// For integration tests to invoke the Web API (host in-memory)
 public partial class Program { }
