@@ -6,12 +6,16 @@
 GET {{Host}}/
 Accept: application/json
 
-### TEST AZURE AUTH ROUTE
+### TEST GLOBAL ERROR HANDLER
+GET {{Host}}/error/test
+Accept: application/json
+
+### TEST AZURE (MSAL) AUTH
 GET {{Host}}/poke
 Accept: application/json
 Authorization: Bearer {{JWT}}
 
-### TEST CUSTOM AUTH ROUTE
-GET {{Host}}/access-via-custom-api-key
+### TEST CUSTOM AUTH
+GET {{Host}}/poke/using-api-key
 Accept: application/json
 x-system-api-key: {{SystemApiKey}}
