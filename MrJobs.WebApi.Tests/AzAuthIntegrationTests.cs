@@ -26,7 +26,7 @@ public class AzAuthIntegrationTests : IClassFixture<WebApiFactory>
     var scopes = new[] { $"api://{clientId}/.default" };
 
     // Act, Assert
-    var token = await AuthenticationTestHelper.GetRealAzureTokenAsync(scopes, _appSettings);
+    var token = await AuthHelpers.GetRealAzureTokenAsync(scopes, _appSettings);
     Assert.False(string.IsNullOrEmpty(token), "Token acquisition failed, check appsettings.Testing.json");
 
     // Act, Assert
