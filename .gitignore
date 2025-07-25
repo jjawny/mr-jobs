@@ -485,3 +485,4 @@ $RECYCLE.BIN/
 
 # APP-SPECIFIC
 appsettings.Development.json
+appsettings.Testing.json
