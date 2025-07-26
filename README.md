@@ -1,24 +1,19 @@
-# Debrief
+# Mr Jobs 🏃🏻💨
 
-🏃💨 Speedrunning CRON jobs x Web APIs via Azure infra
-
-TODO: Log the best time here
-TODO: add in pacing stuff (server-side only in .NET) asp.net rate limiting, do we even do debouncing here? etc throttling n queing or is this a separate speedrun (or maybe just demo about scalability w a worker running concurrently)
-TODO: Detail the speedrun steps w individual times? something like
-1. Provision infra
-2. Add auth
-3. Az RBAC roles (app role x entra group) + route
-4. test managed identity locally
-5. pipelines
-6. web job etc
+Speedrunning CRON jobs x Web APIs hosted on Azure infra
 
 ## 🌐 MrJobs.WebApi
-- A bare-minimum ASP.NET Web API:
-- Hosted via an AzWebApp (on an AzAppServicePlan)
-- Using build n deploy piplines (CI/CD) auto-triggered
-- Has 2 types of auth protection for routes:
-  - MSAL via AzAppRego (for users n Az services)
-  - Custom API key (backup strat)
+- A bare-minimum ASP.NET Web API
+- Hosted on an AzWebApp (on an AzAppServicePlan)
+- Built n deployed via a CI/CD pipline
+- Uses 2 types of auth:
+  1. MSAL via AzAppRego (for users n Az service principals)
+  2. Custom API key (for the wider-system(s))
+
+## 🌐🧪 MrJobs.WebApi.Tests
+- Integration tests for both auth strats
+- E2E from Azure (fetch JWT) to in-mem ASP.NET Web API framework (use JWT to pass auth middlewares/protected routes)
+- Testing MSAL auth using a Client Credentials Flow (client secret)
 
 ## 🎮 MrJobs.WebJob.DotNet
 - A console app
@@ -34,8 +29,6 @@ TODO: Detail the speedrun steps w individual times? something like
 - No CI/CD pipelines have been setup for this guy
 - See the [MrJobs.WebJob.DotNet](./MrJobs.WebJob.DotNet/) for a live example
 
-## 🐧 TODO: MrJobs.WebJob.Shell (example for linux/unix systems)
-
 ## ⚙️ Internal (self-hosted) BG task
 - ❌ Kinda an anti-pattern...
 - ❌ When devs run locally, these internal jobs will auto-run, possibly mutating shared dev/staging data unintentionally
@@ -44,5 +37,3 @@ TODO: Detail the speedrun steps w individual times? something like
 - ✅ Using ext web jobs means we can control the job (change the timer/pause/manually invoke the biz logic) all w/o touching the main app
 
 ## ☁️ TODO: Instructions on using Az Bicep to provision infra using code
-
-## 💡 TODO: Add Az app insights endpoint to demo types of telemetry as related to Az speedrun
