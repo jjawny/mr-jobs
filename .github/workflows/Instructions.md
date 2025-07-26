@@ -1,6 +1,6 @@
-# How to run?
-## ⚙️ GH Actions Variables:
-### Repository-wide:
+# Before you deploy
+## ⚙️ GH Actions Variables
+### Repository-wide
 - `APPROVERS` the GH usernames comma-separated
 - `AZURE_RESOURCE_GROUP` the RG's name w the AzWebApp
 - `AZURE_WEBAPP` the AzWebApp's name
@@ -10,11 +10,11 @@
 - `WEB_API_PROJECT_PATH` the path to the web api (e.g., "./MrJobs.WebApi/MrJobs.WebApi.csproj")
 - `WEB_JOB_PROJECT_PATH` the path to the web job (e.g., "./MrJobs.WebJob.DotNet/MrJobs.WebJob.DotNet.csproj")
 
-## 🤫 GH Actions Secrets:
-### Repository-wide:
+## 🤫 GH Actions Secrets
+### Repository-wide
 - `AZUREAPPSERVICE_CLIENTID...`, `AZUREAPPSERVICE_SUBSCRIPTIONID...`, `AZUREAPPSERVICE_TENANTID...` added after linking AzWebApp (AzWebApp > Deployment > Deployment Center) to GH repo
 
-### Production Environment:
+### Production Environment
 For Web API's Azure OAuth:
 - `AUTH_AUTHORITY` the AzAppRego > Overview > Endpoints > Authority URL
 - `AUTH_AUDIENCE` the AzAppRego > Expose an API > Application ID URI (e.g. "api://client ID")
