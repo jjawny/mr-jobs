@@ -1,8 +1,7 @@
 # How to run?
 ## 🏠 Locally
 1. Auth locally: `az login --scope <WEB_API_BASE_SCOPE like api://client ID/.default> --tenant <AZ APP REGO TENANT ID>`
-2. `cp appsettings.json appsettings.Development.json` (safely gitignored)
-3. Populate fields:
+2. Populate [appsettings.json](./appsettings.json):
    - `{{WEB_API_ROUTE}}` the Web API route to ping (e.g. `/poke`) either https://localhost or see AzWebApp's domain
    - `{{WEB_API_BASE_SCOPE}}` the AzAppRego's base scope: app rego > Expose an API > copy Application ID URI
 4. `dotnet run`
