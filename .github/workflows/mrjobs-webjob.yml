@@ -42,7 +42,7 @@ jobs:
           files: ${{ env.BINARIES }}/appsettings.json
         env:
           WEB_API_ROUTE: ${{ secrets.WEB_API_ROUTE }}
-          WEB_API_SCOPE: ${{ secrets.WEB_API_SCOPE }}
+          WEB_API_BASE_SCOPE: ${{ secrets.AUTH_AUDIENCE }}
       - name: Zip
         shell: pwsh
         run: |

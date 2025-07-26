@@ -28,5 +28,4 @@ For integration tests:
 - TODO:
 
 For web job:
-- `WEB_API_SCOPE` the same as `AUTH_AUDIENCE`
 - `WEB_API_ROUTE` the fully-qualified endpoint to trigger
