@@ -25,7 +25,7 @@ For custom API key access:
 - `SYSTEM_API_KEY` the API key for system(s) to use
 
 For integration tests:
-- TODO:
+- TODO: add client secret if we add test job to pipeline
 
 For web job:
 - `WEB_API_ROUTE` the fully-qualified endpoint to trigger

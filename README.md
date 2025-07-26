@@ -21,7 +21,6 @@ Speedrunning CRON jobs x Web APIs hosted on Azure infra
 - Makes a single HTTP request to the Web API authing w the JWT
 - Has CI/CD pipelines (manually-triggered)
 - View Kudu logs after deploying to confirm success
-- TODO: Instructions to test Managed Identity locally via Az CLI 
 
 ## 🐚 MrJobs.WebJob.PowerShell
 - A PowerShell example (alt strat of console app)
@@ -29,11 +28,12 @@ Speedrunning CRON jobs x Web APIs hosted on Azure infra
 - No CI/CD pipelines have been setup for this guy
 - See the [MrJobs.WebJob.DotNet](./MrJobs.WebJob.DotNet/) for a live example
 
-## ⚙️ Internal (self-hosted) BG task
+## ⚙️ Internal (self-hosted) job
 - ❌ Kinda an anti-pattern...
 - ❌ When devs run locally, these internal jobs will auto-run, possibly mutating shared dev/staging data unintentionally
 - ❌ Adds complexity a dev's mental model of the app
 - ✅ Using ext web jobs means we can say that CRON jobs are just another vanilla HTTP route!
 - ✅ Using ext web jobs means we can control the job (change the timer/pause/manually invoke the biz logic) all w/o touching the main app
 
-## ☁️ TODO: Instructions on using Az Bicep to provision infra using code
+## ☁️ IaC
+TODO: add Azure bicep instructions
