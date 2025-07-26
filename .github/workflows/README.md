@@ -25,7 +25,7 @@ For custom API key access:
 - `SYSTEM_API_KEY` the API key for system(s) to use
 
 For integration tests:
-- `AUTH_CLIENT_SECRET` the AzAppRego secret (for integration tests)
+- TODO:
 
 For web job:
 - `WEB_API_SCOPE` the same as `AUTH_AUDIENCE`
