@@ -1,4 +1,4 @@
-# Run
+# How to run?
 1. `cp appsettings.json appsettings.Development.json` (safely gitignored)
 2. Create an AzAppRego (for auth)
    - No platform needed to start with
@@ -9,7 +9,7 @@
    - `{{AUTH_TENANT_ID}}` app rego > Overview > copy tenant ID
    - `{{AUTH_AUTHORITY}}` app rego > Overview > Endpoints > copy authority URL (the one with the tenant ID usually)
    - `{{AUTH_AUDIENCE}}` app rego > Manage > Expose an API > copy Application ID URI
-   - `{{SYSTEMROUTES_APIKEY}}` you decide! or just use `openssl rand -base64 32`
+   - `{{SYSTEM_API_KEY}}` you decide! or just use `openssl rand -base64 32`
 5. `dotnet run` or use C# Dev Kit
 
 ## Use the [.http file](./MrJobs.WebApi.http)
