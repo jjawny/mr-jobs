@@ -1,5 +1,7 @@
-﻿using Azure.Identity;
+﻿using System.Net;
+using Azure.Identity;
 using Microsoft.Extensions.Configuration;
+using Polly;
 
 //   __      __      ___.         ____.     ___.    
 //  /  \    /  \ ____\_ |__      |    | ____\_ |__  
@@ -28,12 +30,10 @@ try
   Console.WriteLine($"Successfully read appsettings");
 
   // 2. Get the access token
-
-  // Use `DefaultAzureCredential` >>> `ManagedIdentityCredential` as
-  // this object will attempt multiple auth methods in this order:
-  //  1. FIRST Managed Identity (when running in Azure)
-  //  2. THEN az cli (login when running locally)
-
+  // Use `DefaultAzureCredential` >>> `ManagedIdentityCredential` as this object
+  //  will attempt multiple auth methods in this order:
+  //    1. Managed Identity (succeeds when running in Azure)
+  //    2. az cli (succeeds when logged in locally)
   var credential = new DefaultAzureCredential(); // new ManagedIdentityCredential();
   var tokenRequestCtx = new Azure.Core.TokenRequestContext([$"{scope}/.default"]);
   var accessToken = await credential.GetTokenAsync(tokenRequestCtx);
@@ -42,6 +42,19 @@ try
   Console.WriteLine($"Successfully obtained access token '{jwt[0..Math.Min(5, jwt.Length)]}...'");
 
   // 3. Make the HTTP request
+  const int RETRY_COUNT = 3;
+  static TimeSpan ExponentialBackoffInSeconds(int retryAttempt) => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt));
+
+  var retryPolicy = Policy
+    .HandleResult<HttpResponseMessage>(result => result.StatusCode != HttpStatusCode.OK)
+    .WaitAndRetryAsync(
+        retryCount: RETRY_COUNT,
+        sleepDurationProvider: retryAttempt => ExponentialBackoffInSeconds(retryAttempt),
+        onRetry: (outcome, timespan, retryCount, context) =>
+        {
+          Console.WriteLine($"Retry {retryCount}/{RETRY_COUNT} after {timespan.Seconds}s");
+        });
+
   var httpClient = new HttpClient()
   {
     DefaultRequestHeaders =
@@ -50,12 +63,19 @@ try
     }
   };
   var uri = new Uri(route);
-  var response = await httpClient.GetAsync(uri);
+  var response = await retryPolicy.ExecuteAsync(async () => await httpClient.GetAsync(uri));
   var content = await response.Content.ReadAsStringAsync();
 
-  Console.WriteLine($"Successfully completed Job with status code '{response.StatusCode}' and content '{content}'");
+  if (response.StatusCode == HttpStatusCode.OK)
+  {
+    Console.WriteLine($"Job successful with content '{content}'");
+  }
+  else
+  {
+    Console.WriteLine($"Job failed with status code '{response.StatusCode}' and content '{content}'");
+  }
 }
 catch (Exception ex)
 {
-  Console.WriteLine($"Failed to complete Job, reason: {ex.Message}");
+  Console.WriteLine($"Job error, reason: {ex.Message}");
 }
