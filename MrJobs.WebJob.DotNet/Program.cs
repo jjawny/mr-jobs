@@ -14,6 +14,7 @@ Console.WriteLine("Starting Job...");
 try
 {
   // 1. Read appsettings
+  // TODO: logic/env check to read appsettings.Development.json
   var configuration = new ConfigurationBuilder()
     .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
