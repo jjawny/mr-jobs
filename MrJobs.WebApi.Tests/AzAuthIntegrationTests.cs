@@ -27,7 +27,7 @@ public class AzAuthIntegrationTests : IClassFixture<WebApiFactory>
 
     // Act, Assert
     var token = await AuthHelpers.GetRealAzureTokenAsync(scopes, _appSettings);
-    Assert.False(string.IsNullOrEmpty(token), "Token acquisition failed, check appsettings.Testing.json");
+    Assert.False(string.IsNullOrEmpty(token), "Token acquisition failed, check appsettings.Tests.json");
 
     // Act, Assert
     _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);

@@ -13,7 +13,7 @@ public class WebApiFactory : WebApplicationFactory<Program>
     builder.ConfigureAppConfiguration((context, config) =>
     {
       config.Sources.Clear();
-      config.AddJsonFile("appsettings.Testing.json", optional: false);
+      config.AddJsonFile("appsettings.Tests.json", optional: false);
     });
 
     return base.CreateHost(builder);
