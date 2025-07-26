@@ -76,9 +76,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_A7C976CED4E3453387EF337A2411A2AC }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_85BF8C9AC6694FBB8F13927E9D5FF53B }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_63D7095076824EE5B858CCAD6E737B8F }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C6876931E6E84FED87DC2D8B3FFC1912 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_7CB7A0793A714183BA9950661852AD46 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_7D2D09B355984C72AB6C2721245A3D87 }}
       - name: Set the Azure Web App runtime stack
         uses: Azure/cli@v2.1.0
         # See available runtime stacks using `az webapp list-runtimes --os-type windows`
