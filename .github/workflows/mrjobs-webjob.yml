@@ -23,11 +23,12 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ vars.BUILD_DOTNET_VERSION }}
-      - name: Run .NET commands
+      - name: Build artifact
         shell: pwsh
         run: |
           dotnet restore "${{ vars.WEB_JOB_PROJECT_PATH }}"
           dotnet publish "${{ vars.WEB_JOB_PROJECT_PATH }}" --configuration Release --output "${{ env.BINARIES }}"
+      # Single-step, artifact available, no need to upload and download artifacts
       # - name: Upload artifact
       #   uses: actions/upload-artifact@v4
       #   with:
@@ -41,7 +42,7 @@ jobs:
           files: ${{ env.BINARIES }}/appsettings.json
         env:
           WEB_API_ROUTE: ${{ secrets.WEB_API_ROUTE }}
-          WEB_API_APP_REGO_BASE_SCOPE: ${{ secrets.WEB_API_APP_REGO_BASE_SCOPE }}
+          WEB_API_SCOPE: ${{ secrets.WEB_API_SCOPE }}
       - name: Zip
         shell: pwsh
         run: |

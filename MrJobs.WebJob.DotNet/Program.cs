@@ -16,8 +16,8 @@ try
     .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .Build();
-  var scope = configuration["Api:Scope"];
-  var route = configuration["Api:Route"];
+  var scope = configuration["WebApi:Scope"];
+  var route = configuration["WebApi:Route"];
 
   if (string.IsNullOrWhiteSpace(scope))
     throw new ArgumentException("Bad API Scope");
